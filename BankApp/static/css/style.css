@@ -1,0 +1,40 @@
+/* Custom styles for SecureBank Application */
+
+/* Override Tailwind defaults when needed */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Add custom animation for alerts */
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.alert-animation {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Custom styling for form inputs focus */
+input:focus, textarea:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+/* Add some custom styling for links */
+a {
+    transition: all 0.2s;
+}
+
+/* Custom styling for tables */
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+th, td {
+    transition: background-color 0.2s;
+}
+
+tr:hover td {
+    background-color: rgba(243, 244, 246, 0.6);
+}

@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+
+{% block title %}SecureBank - Mon profil{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-bold mb-6">Mon profil</h2>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Informations personnelles -->
+    <div class="bg-white rounded-lg shadow p-6 md:col-span-2">
+        <h3 class="text-xl font-semibold mb-4 text-blue-800">Informations personnelles</h3>
+        
+        <div class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Nom complet</label>
+                    <div class="mt-1 bg-gray-50 p-2 rounded-md">{{ user.full_name }}</div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Nom d'utilisateur</label>
+                    <div class="mt-1 bg-gray-50 p-2 rounded-md">{{ user.username }}</div>
+                </div>
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Adresse email</label>
+                <div class="mt-1 bg-gray-50 p-2 rounded-md">{{ user.email }}</div>
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Téléphone</label>
+                <div class="mt-1 bg-gray-50 p-2 rounded-md">{{ user.phone }}</div>
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Adresse</label>
+                <div class="mt-1 bg-gray-50 p-2 rounded-md">{{ user.address }}</div>
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Membre depuis</label>
+                <div class="mt-1 bg-gray-50 p-2 rounded-md">{{ user.created_at.split(' ')[0] }}</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Sécurité du compte -->
+    <div class="bg-white rounded-lg shadow p-6">
+        <h3 class="text-xl font-semibold mb-4 text-blue-800">Sécurité</h3>
+        
+        <div class="space-y-4">
+            <div>
+                <h4 class="font-medium text-gray-700">Mot de passe</h4>
+                <p class="text-sm text-gray-500 mt-1">
+                    Votre dernier changement de mot de passe date de plus de 3 mois. Nous recommandons de le changer régulièrement.
+                </p>
+                <button class="mt-2 bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-md text-sm">
+                    Modifier le mot de passe
+                </button>
+            </div>
+            
+            <div class="border-t border-gray-200 pt-4">
+                <h4 class="font-medium text-gray-700">Authentification à deux facteurs</h4>
+                <p class="text-sm text-gray-500 mt-1">
+                    La 2FA n'est pas activée. Activez-la pour renforcer la sécurité de votre compte.
+                </p>
+                <button class="mt-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm">
+                    Activer la 2FA
+                </button>
+            </div>
+            
+            <div class="border-t border-gray-200 pt-4">
+                <h4 class="font-medium text-gray-700">Sessions actives</h4>
+                <p class="text-sm text-gray-500 mt-1">
+                    1 appareil actuellement connecté
+                </p>
+                <button class="mt-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm">
+                    Déconnecter tous les appareils
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
