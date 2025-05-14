@@ -62,6 +62,44 @@ def send_log(request_data, response_status=200, response_data=None):
         # En cas d'erreur, on continue sans bloquer l'application
         app.logger.warning("Impossible d'envoyer les logs à l'API de surveillance")
 
+# Gestionnaire before_request pour logger toutes les requêtes entrantes
+@app.before_request
+def log_request():
+    # Ignorer les requêtes pour les fichiers statiques
+    if request.path.startswith('/static/'):
+        return
+    
+    # Extraire les données de la requête selon la méthode
+    request_data = {}
+    if request.method == 'POST':
+        if request.is_json:
+            request_data = request.get_json(silent=True) or {}
+        else:
+            # Masquer les mots de passe dans les formulaires
+            form_data = request.form.to_dict()
+            if 'password' in form_data:
+                form_data['password'] = '******'
+            request_data = form_data
+    elif request.method == 'GET':
+        request_data = request.args.to_dict()
+    
+    # Envoyer le log à l'API de surveillance
+    log_data = {
+        'timestamp': datetime.datetime.now().isoformat(),
+        'client_ip': request.remote_addr,
+        'method': request.method,
+        'path': request.path,
+        'user_agent': request.headers.get('User-Agent', ''),
+        'request_data': request_data,
+        'endpoint': request.endpoint,
+        'cookies': {k: v for k, v in request.cookies.items() if k != 'session'}  # Ne pas logger le contenu de la session
+    }
+    
+    try:
+        requests.post(MONITORING_API_URL, json=log_data, timeout=1)
+    except requests.exceptions.RequestException:
+        app.logger.warning("Impossible d'envoyer les logs à l'API de surveillance")
+
 # Middleware pour vérifier si l'utilisateur est connecté
 def login_required(f):
     def decorated_function(*args, **kwargs):
